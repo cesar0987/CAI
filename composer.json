@@ -1,0 +1,115 @@
+{
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "cai/app",
+    "type": "project",
+    "description": "Sistema Integral de Gestión del Centro de Atención Inclusiva",
+    "keywords": ["cai", "laravel", "filament"],
+    "license": "proprietary",
+    "require": {
+        "php": "^8.3",
+        "laravel/framework": "^13.0",
+        "laravel/tinker": "^3.0",
+        "cai/billing": "@dev",
+        "cai/care": "@dev",
+        "cai/core": "@dev",
+        "cai/documents": "@dev",
+        "cai/identity": "@dev",
+        "cai/notifications": "@dev",
+        "cai/reporting": "@dev",
+        "cai/scheduling": "@dev",
+        "cai/students": "@dev",
+        "filament/filament": "^3.0",
+        "spatie/laravel-permission": "^6.0"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.23",
+        "larastan/larastan": "^3.0",
+        "laravel/pail": "^1.2.5",
+        "laravel/pint": "^1.27",
+        "mockery/mockery": "^1.6",
+        "nunomaduro/collision": "^8.6",
+        "pestphp/pest": "^3.0",
+        "pestphp/pest-plugin-laravel": "^3.0",
+        "phpunit/phpunit": "^12.5.12",
+        "qossmic/deptrac": "^2.0"
+    },
+    "repositories": [
+        { "type": "path", "url": "packages/core", "options": { "symlink": true } },
+        { "type": "path", "url": "packages/identity", "options": { "symlink": true } },
+        { "type": "path", "url": "packages/students", "options": { "symlink": true } },
+        { "type": "path", "url": "packages/scheduling", "options": { "symlink": true } },
+        { "type": "path", "url": "packages/care", "options": { "symlink": true } },
+        { "type": "path", "url": "packages/billing", "options": { "symlink": true } },
+        { "type": "path", "url": "packages/documents", "options": { "symlink": true } },
+        { "type": "path", "url": "packages/notifications", "options": { "symlink": true } },
+        { "type": "path", "url": "packages/reporting", "options": { "symlink": true } }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "setup": [
+            "composer install",
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "@php artisan key:generate",
+            "@php artisan migrate --force",
+            "npm install --ignore-scripts",
+            "npm run build"
+        ],
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "@php artisan dev"
+        ],
+        "test": [
+            "@php artisan config:clear --ansi @no_additional_args",
+            "@php artisan test"
+        ],
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi",
+            "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
+            "@php artisan migrate --graceful --ansi"
+        ],
+        "pre-package-uninstall": [
+            "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
+        ],
+        "deptrac": "vendor/bin/deptrac analyse --config-file=deptrac.yaml --no-progress",
+        "pint": "vendor/bin/pint",
+        "phpstan": "vendor/bin/phpstan analyse",
+        "arch": "vendor/bin/pest --testsuite=Arch"
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
