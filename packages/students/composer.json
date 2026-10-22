@@ -1,0 +1,33 @@
+{
+    "name": "cai/students",
+    "description": "Módulo students del Sistema CAI",
+    "type": "library",
+    "license": "proprietary",
+    "require": {
+        "php": "^8.3",
+        "illuminate/database": "^13.0",
+        "illuminate/support": "^13.0"
+    },
+    "require-dev": {
+        "pestphp/pest": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cai\\Students\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Cai\\Students\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Cai\\Students\\StudentsServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

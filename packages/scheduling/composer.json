@@ -1,0 +1,33 @@
+{
+    "name": "cai/scheduling",
+    "description": "Módulo scheduling del Sistema CAI",
+    "type": "library",
+    "license": "proprietary",
+    "require": {
+        "php": "^8.3",
+        "illuminate/database": "^13.0",
+        "illuminate/support": "^13.0"
+    },
+    "require-dev": {
+        "pestphp/pest": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cai\\Scheduling\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Cai\\Scheduling\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Cai\\Scheduling\\SchedulingServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
