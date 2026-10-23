@@ -23,15 +23,11 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
-        "larastan/larastan": "^3.13",
         "laravel/pail": "^1.2.5",
-        "laravel/pint": "^1.32",
+        "laravel/pint": "^1.27",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
-        "pestphp/pest": "^3.0",
-        "pestphp/pest-plugin-laravel": "^3.0",
-        "phpunit/phpunit": "^12.5.12",
-        "qossmic/deptrac": "^2.0"
+        "phpunit/phpunit": "^12.5.12"
     },
     "repositories": [
         { "type": "path", "url": "packages/core", "options": { "symlink": true } },
@@ -90,11 +86,7 @@
         ],
         "pre-package-uninstall": [
             "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
-        ],
-        "deptrac": "vendor/bin/deptrac analyse --config-file=deptrac.yaml --no-progress",
-        "pint": "vendor/bin/pint",
-        "phpstan": "vendor/bin/phpstan analyse",
-        "arch": "vendor/bin/pest --testsuite=Arch"
+        ]
     },
     "extra": {
         "laravel": {
@@ -106,7 +98,6 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true,
             "php-http/discovery": true
         }
     },
