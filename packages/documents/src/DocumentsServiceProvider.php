@@ -15,8 +15,6 @@ final class DocumentsServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        ->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-        ->loadViewsFrom(__DIR__ . '/../resources/views', 'documents');
-        ->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'documents');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
     }
 }

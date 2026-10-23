@@ -15,8 +15,6 @@ final class SchedulingServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        ->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-        ->loadViewsFrom(__DIR__ . '/../resources/views', 'scheduling');
-        ->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'scheduling');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
     }
 }

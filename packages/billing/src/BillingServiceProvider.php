@@ -15,8 +15,6 @@ final class BillingServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        ->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-        ->loadViewsFrom(__DIR__ . '/../resources/views', 'billing');
-        ->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'billing');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
     }
 }

@@ -15,8 +15,6 @@ final class CareServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        ->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-        ->loadViewsFrom(__DIR__ . '/../resources/views', 'care');
-        ->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'care');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
     }
 }

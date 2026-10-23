@@ -15,8 +15,6 @@ final class ReportingServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        ->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-        ->loadViewsFrom(__DIR__ . '/../resources/views', 'reporting');
-        ->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'reporting');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
     }
 }
