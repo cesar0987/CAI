@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Cai\Core\Tests\Arch;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 use PHPUnit\Framework\TestCase;
 
 class ModuleBoundariesTest extends TestCase

@@ -1,0 +1,9 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	quotepath = false
+[user]
+	name = Cesar Benitez
+	email = cesarbenitez46@gmail.com

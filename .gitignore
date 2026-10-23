@@ -1,60 +1,27 @@
-# ---------------------------------------------------------------------------
-# Dependencias
-# ---------------------------------------------------------------------------
-/vendor/
-/node_modules/
-/.pnpm-store/
-/.bun/
-
-# ---------------------------------------------------------------------------
-# Entorno y secretos — NUNCA se versionan
-# ---------------------------------------------------------------------------
-.env
-.env.*
-!.env.example
-*.pem
-*.key
-*.p12
-*.pfx
-/storage/*.key
-/storage/framework/cache/*
-/storage/framework/sessions/*
-/storage/framework/views/*
-/storage/logs/*
-/bootstrap/cache/*.php
-
-# ---------------------------------------------------------------------------
-# Base de datos y respaldos — nunca versionados
-# ---------------------------------------------------------------------------
-/backups/
-*.dump
-*.sql
-*.sql.gz
-*.tar.gz
-
-# ---------------------------------------------------------------------------
-# Pruebas
-# ---------------------------------------------------------------------------
-/.phpunit.cache
-/coverage/
-/.php-cs-fixer.cache
-/.phpstan.cache
-
-# ---------------------------------------------------------------------------
-# Estado local del registro de cambios (generado por el plugin)
-# ---------------------------------------------------------------------------
-/.cai/
-
-# ---------------------------------------------------------------------------
-# Sistema operativo y editores
-# ---------------------------------------------------------------------------
+*.log
 .DS_Store
+.env
+.env.backup
+.env.production
+.phpactor.json
+.phpunit.result.cache
+/.codex
+/.cursor/
+/.idea
+/.nova
+/.phpunit.cache
+/.vscode
+/.zed
+/auth.json
+/node_modules
+/public/build
+/public/fonts-manifest.dev.json
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/vendor
+_ide_helper.php
+Homestead.json
+Homestead.yaml
 Thumbs.db
-*.swp
-*~
-/.idea/
-/.vscode/
-/.nvim.lua
-
-# Obsidian workspace (personal por máquina/usuario)
-sistema cai/.obsidian/workspace.json
