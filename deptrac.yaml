@@ -1,10 +1,4 @@
 # deptrac.yaml — Fronteras entre módulos del proyecto CAI
-# Ver: sistema cai/02 - Arquitectura/02.03 Reglas de Frontera entre Módulos.md
-# Ver: sistema cai/05 - Proceso de Desarrollo/05.07 Gobierno del Cambio.md (GE-01)
-#
-# Las reglas se verifican con: composer deptrac
-# En CI: bloqueante
-
 deptrac:
   paths:
     - ./packages
@@ -20,47 +14,38 @@ deptrac:
       collectors:
         - type: directory
           value: packages/core/.*
-
     - name: Identity
       collectors:
         - type: directory
           value: packages/identity/.*
-
     - name: Students
       collectors:
         - type: directory
           value: packages/students/.*
-
     - name: Scheduling
       collectors:
         - type: directory
           value: packages/scheduling/.*
-
     - name: Care
       collectors:
         - type: directory
           value: packages/care/.*
-
     - name: Billing
       collectors:
         - type: directory
           value: packages/billing/.*
-
     - name: Documents
       collectors:
         - type: directory
           value: packages/documents/.*
-
     - name: Notifications
       collectors:
         - type: directory
           value: packages/notifications/.*
-
     - name: Reporting
       collectors:
         - type: directory
           value: packages/reporting/.*
-
     - name: AppHost
       collectors:
         - type: directory
@@ -82,5 +67,3 @@ deptrac:
     graphviz:
       hidden_layers: []
       groups: []
-    table:
-      groups: ["Core", "Identity", "Students", "Scheduling", "Care", "Billing", "Documents", "Notifications", "Reporting", "AppHost"]
