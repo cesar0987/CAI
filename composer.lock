@@ -373,7 +373,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/core",
-                "reference": "f21302a41cd96dad4c194811f0efad67144a2ca6"
+                "reference": "2ebbe1f1d9ad3fbe47e0d85ba6f495b4f513de04"
             },
             "require": {
                 "illuminate/database": "^13.0",
@@ -387,7 +387,7 @@
             "extra": {
                 "laravel": {
                     "providers": [
-                        "Cai\\Core\\CoreServiceProvider"
+                        "Cai\\Core\\Providers\\CoreServiceProvider"
                     ]
                 }
             },
@@ -404,7 +404,7 @@
             "license": [
                 "proprietary"
             ],
-            "description": "Módulo core del Sistema CAI",
+            "description": "Núcleo transversal del Sistema CAI",
             "transport-options": {
                 "symlink": true,
                 "relative": true
