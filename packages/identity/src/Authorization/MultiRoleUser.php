@@ -17,10 +17,15 @@ final class MultiRoleUser
     ) {
     }
 
+    public function hasRole(string $role): bool
+    {
+        return $this->user->hasRole($role) || ($this->roleFlags[trim($role)] ?? false);
+    }
+
     public function hasAnyRole(string ...$roles): bool
     {
         foreach ($roles as $role) {
-            if ($this->user->hasRole($role) || ($this->roleFlags[trim($role)] ?? false)) {
+            if ($this->hasRole($role)) {
                 return true;
             }
         }
@@ -31,7 +36,7 @@ final class MultiRoleUser
     public function hasAllRoles(string ...$roles): bool
     {
         foreach ($roles as $role) {
-            if (! $this->user->hasRole($role) && ! ($this->roleFlags[trim($role)] ?? false)) {
+            if (! $this->hasRole($role)) {
                 return false;
             }
         }
