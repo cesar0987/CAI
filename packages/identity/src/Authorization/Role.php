@@ -13,9 +13,7 @@ final readonly class Role
         public string $name,
         public array $permissions = [],
     ) {
-        $this->name = trim($this->name);
-
-        if ($this->name === '') {
+        if (trim($name) === '') {
             throw new \InvalidArgumentException('El nombre del rol no puede estar vacío.');
         }
     }
