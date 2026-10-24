@@ -1,6 +1,6 @@
 {
     "name": "cai/core",
-    "description": "Módulo core del Sistema CAI",
+    "description": "Núcleo transversal del Sistema CAI",
     "type": "library",
     "license": "proprietary",
     "require": {
@@ -24,7 +24,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Cai\\Core\\CoreServiceProvider"
+                "Cai\\Core\\Providers\\CoreServiceProvider"
             ]
         }
     },
