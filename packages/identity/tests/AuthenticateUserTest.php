@@ -6,7 +6,6 @@ use Cai\Identity\Actions\AuthenticateUser;
 use Cai\Identity\Data\AuthenticateUserData;
 use Cai\Identity\Exceptions\InvalidCredentialsException;
 use Illuminate\Support\Facades\Hash;
-use Mockery;
 
 it('accepts valid credentials and returns a successful authentication result', function () {
     Hash::shouldReceive('check')->once()->with('secret123', Mockery::type('string'))->andReturn(true);
