@@ -9,8 +9,7 @@ abstract class DomainEvent
     public function __construct(
         private readonly string $eventName,
         private readonly array $payload = [],
-    ) {
-    }
+    ) {}
 
     public function eventName(): string
     {
@@ -39,16 +38,19 @@ abstract class DomainEvent
 
             if (is_array($value)) {
                 $payload[$key] = $this->normalizePayload($value);
+
                 continue;
             }
 
             if ($value instanceof \DateTimeInterface) {
                 $payload[$key] = $value->format(DATE_ATOM);
+
                 continue;
             }
 
             if (method_exists($value, '__toString')) {
                 $payload[$key] = (string) $value;
+
                 continue;
             }
 

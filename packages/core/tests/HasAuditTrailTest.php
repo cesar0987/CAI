@@ -17,7 +17,7 @@ it('records domain events for create, update and delete operations', function ()
         })
     )->andReturnTrue();
 
-    $model = new TestAuditModel();
+    $model = new TestAuditModel;
     $model->id = 42;
     $model->recordAudit('created');
     expect(true)->toBeTrue();
@@ -28,5 +28,6 @@ class TestAuditModel extends Model
     use HasAuditTrail;
 
     protected $table = 'users';
+
     public $timestamps = false;
 }

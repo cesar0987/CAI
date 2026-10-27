@@ -5,39 +5,57 @@ declare(strict_types=1);
 namespace Cai\Core\Support;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
-use Illuminate\Database\Query\Builder as QueryBuilder;
+use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Builder;
 
 final class SchemaPaginator
 {
     /**
-     * Apply the module connection before pagination so repeated `on('students')`
-     * calls are centralized in one place.
+     * Apunta la consulta a la conexión del módulo sin perder sus restricciones.
      *
-     * @param  EloquentBuilder|QueryBuilder  $query
+     * El modelo se clona para no cambiar la conexión del modelo del llamador.
+     *
+     * @param  Builder<*>  $query
+     * @return Builder<*>
+     */
+    public static function onSchema(Builder $query, string $connection): Builder
+    {
+        $model = clone $query->getModel();
+        $model->setConnection($connection);
+        $query->setModel($model);
+
+        return $query;
+    }
+
+    /**
+     * @param  Builder<*>  $query
+     * @param  array<int, string>  $columns
      */
     public static function paginate(
-        EloquentBuilder|QueryBuilder $query,
-        string $schema,
+        Builder $query,
+        string $connection,
         int $perPage = 15,
         array $columns = ['*'],
         string $pageName = 'page',
         ?int $page = null,
     ): LengthAwarePaginator {
-        return $query->on($schema)->paginate($perPage, $columns, $pageName, $page);
+        return self::onSchema($query, $connection)
+            ->paginate($perPage, $columns, $pageName, $page);
     }
 
     /**
-     * @param  EloquentBuilder|QueryBuilder  $query
+     * @param  Builder<*>  $query
+     * @param  array<int, string>  $columns
      */
     public static function simplePaginate(
-        EloquentBuilder|QueryBuilder $query,
-        string $schema,
+        Builder $query,
+        string $connection,
         int $perPage = 15,
         array $columns = ['*'],
         string $pageName = 'page',
         ?int $page = null,
-    ) {
-        return $query->on($schema)->simplePaginate($perPage, $columns, $pageName, $page);
+    ): Paginator {
+        return self::onSchema($query, $connection)
+            ->simplePaginate($perPage, $columns, $pageName, $page);
     }
 }

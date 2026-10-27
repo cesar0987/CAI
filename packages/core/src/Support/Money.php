@@ -13,8 +13,7 @@ final class Money implements Stringable
 
     private function __construct(
         private readonly string $amount,
-    ) {
-    }
+    ) {}
 
     public static function parse(string|int|float $amount): self
     {

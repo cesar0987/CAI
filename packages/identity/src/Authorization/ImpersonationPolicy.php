@@ -9,12 +9,11 @@ use Cai\Identity\Users\UserAccount;
 final class ImpersonationPolicy
 {
     /**
-     * @param array<string, bool> $allowedRoles
+     * @param  list<string>  $allowedRoles
      */
     public function __construct(
         private readonly array $allowedRoles = ['direccion', 'admin_tecnico'],
-    ) {
-    }
+    ) {}
 
     public function canImpersonate(UserAccount $actor, UserAccount $target): bool
     {

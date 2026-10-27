@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Cai\Identity\PasswordPolicy;
 
-use Cai\Identity\Exceptions\PasswordChangeException;
 use Cai\Core\Support\Result;
+use Cai\Identity\Exceptions\PasswordChangeException;
 
 final class PasswordChangeService
 {

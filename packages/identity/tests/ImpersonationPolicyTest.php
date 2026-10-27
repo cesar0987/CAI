@@ -32,7 +32,7 @@ it('allows impersonation only for privileged actors and denies self or inactive 
         ['direccion' => new UserRoleAssignment('direccion', true)],
     );
 
-    $policy = new ImpersonationPolicy();
+    $policy = new ImpersonationPolicy;
 
     expect($policy->canImpersonate($director, $assistant))->toBeTrue();
     expect($policy->canImpersonate($assistant, $director))->toBeFalse();

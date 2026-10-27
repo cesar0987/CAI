@@ -17,6 +17,5 @@ final readonly class AuditEvent
         public ?int $actorUserId = null,
         public ?int $studentId = null,
         public string $severity = 'info',
-    ) {
-    }
+    ) {}
 }

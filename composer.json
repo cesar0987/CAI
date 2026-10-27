@@ -73,6 +73,28 @@
             "@php artisan config:clear --ansi @no_additional_args",
             "@php artisan test"
         ],
+        "test:unit": [
+            "@php vendor/bin/pest --testsuite=Unit"
+        ],
+        "test:arch": [
+            "@php vendor/bin/pest --testsuite=Arch"
+        ],
+        "test:smoke": [
+            "@php vendor/bin/pest --testsuite=Smoke"
+        ],
+        "deptrac": [
+            "@php vendor/bin/deptrac analyse --config-file=deptrac.yaml --no-progress"
+        ],
+        "stan": [
+            "@php vendor/bin/phpstan analyse --memory-limit=1G"
+        ],
+        "check": [
+            "@php vendor/bin/pint --test",
+            "@stan",
+            "@deptrac",
+            "@test:unit",
+            "@test:arch"
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"

@@ -1,0 +1,15 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: 5
+    paths:
+        - app
+        - packages
+    excludePaths:
+        - packages/*/tests/*
+    ignoreErrors:
+        # CORE-02 y CORE-10: los traits existen, pero todavía no hay modelos
+        # Eloquent en los paquetes que los usen (F2 trae la persistencia).
+        # Se retira esta excepción en cuanto el primer modelo los adopte.
+        - message: '#^Trait Cai\\Core\\Traits\\(HasAuditTrail|SoftDeletesByUser) is used zero times#'

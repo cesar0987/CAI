@@ -17,16 +17,25 @@ final readonly class SessionPolicy
 
     public function requiresRegeneration(\DateTimeInterface $lastLoginAt, \DateTimeInterface $now): bool
     {
-        return $lastLoginAt <= $now->modify('-'. $this->absoluteTimeoutMinutes.' minutes');
+        return $lastLoginAt <= $this->threshold($now, $this->absoluteTimeoutMinutes);
     }
 
     public function isIdleTimeout(\DateTimeInterface $lastSeenAt, \DateTimeInterface $now): bool
     {
-        return $lastSeenAt <= $now->modify('-'. $this->idleTimeoutMinutes.' minutes');
+        return $lastSeenAt <= $this->threshold($now, $this->idleTimeoutMinutes);
     }
 
     public function isExpired(\DateTimeInterface $lastSeenAt, \DateTimeInterface $lastLoginAt, \DateTimeInterface $now): bool
     {
         return $this->requiresRegeneration($lastLoginAt, $now) || $this->isIdleTimeout($lastSeenAt, $now);
+    }
+
+    /**
+     * Calcula el límite sin mutar el instante recibido.
+     */
+    private function threshold(\DateTimeInterface $now, int $minutes): \DateTimeImmutable
+    {
+        return \DateTimeImmutable::createFromInterface($now)
+            ->sub(new \DateInterval('PT'.$minutes.'M'));
     }
 }

@@ -7,8 +7,8 @@ namespace Cai\Identity\Users;
 final readonly class UserAccount
 {
     /**
-     * @param array<string, UserRoleAssignment> $roles
-     * @param array<int> $studentIds
+     * @param  array<string, UserRoleAssignment>  $roles
+     * @param  array<int>  $studentIds
      */
     public function __construct(
         public int $id,

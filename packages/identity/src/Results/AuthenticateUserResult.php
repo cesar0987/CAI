@@ -8,6 +8,5 @@ final readonly class AuthenticateUserResult
 {
     public function __construct(
         public mixed $user,
-    ) {
-    }
+    ) {}
 }

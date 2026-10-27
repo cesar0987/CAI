@@ -5,7 +5,8 @@ declare(strict_types=1);
 use Cai\Core\Contracts\ModuleContract;
 
 it('exposes the base module contract', function () {
-    $contract = new class implements ModuleContract {
+    $contract = new class implements ModuleContract
+    {
         public function moduleName(): string
         {
             return 'students';

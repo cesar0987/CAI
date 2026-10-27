@@ -4,14 +4,21 @@ declare(strict_types=1);
 
 namespace Cai\Core\Support;
 
+/**
+ * Resultado explícito de un caso de uso: éxito con valor o fallo con su error.
+ *
+ * Las subclases deben conservar la firma del constructor para que las factorías
+ * `success()` y `failure()` puedan seguir devolviendo `static`.
+ *
+ * @phpstan-consistent-constructor
+ */
 class Result
 {
     protected function __construct(
         protected readonly bool $success,
         protected readonly mixed $value = null,
         protected readonly ?\Throwable $error = null,
-    ) {
-    }
+    ) {}
 
     public static function success(mixed $value = null): static
     {

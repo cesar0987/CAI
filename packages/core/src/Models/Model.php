@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Cai\Core\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
-use Illuminate\Database\Query\Builder;
 
 abstract class Model extends EloquentModel
 {
@@ -37,33 +37,32 @@ abstract class Model extends EloquentModel
         $table = $this->getTable();
         $schema = $this->resolveSchema();
 
-        return $this->quoteIdentifier($schema) . '.' . $this->quoteIdentifier($table);
+        return $this->quoteIdentifier($schema).'.'.$this->quoteIdentifier($table);
     }
 
     /**
      * Ensure PostgreSQL sessions use the module schema before the query runs.
+     *
+     * Repite el armado de `newQuery()` de Eloquent para que el tipo genérico
+     * quede atado al modelo concreto y no al `Model` base.
+     *
+     * @return Builder<static>
      */
     public function newQuery(): Builder
     {
-        $query = parent::newQuery();
-
-        if (! static::$resolver) {
-            return $query;
-        }
-
         if ($this->usesPostgresConnection()) {
             $this->setSearchPath($this->resolveSchema());
         }
 
-        return $query;
+        return $this->registerGlobalScopes($this->newModelQuery());
     }
 
     protected function resolveSchema(): string
     {
-        $configuredSchema = $this->schema ?? 'public';
+        $configuredSchema = $this->schema;
 
         if ($this->getConnectionName() !== null) {
-            $connectionConfig = config('database.connections.' . $this->getConnectionName());
+            $connectionConfig = config('database.connections.'.$this->getConnectionName());
 
             if (is_array($connectionConfig) && isset($connectionConfig['search_path'])) {
                 $configuredSchema = (string) $connectionConfig['search_path'];
@@ -75,22 +74,12 @@ abstract class Model extends EloquentModel
 
     protected function usesPostgresConnection(): bool
     {
-        if (! static::$resolver) {
-            return false;
-        }
-
-        $connection = $this->getConnection();
-
-        if (! $connection) {
-            return false;
-        }
-
-        return $connection->getDriverName() === 'pgsql';
+        return $this->getConnection()->getDriverName() === 'pgsql';
     }
 
     protected function setSearchPath(string $schema): void
     {
-        if (! static::$resolver || $schema === '') {
+        if ($schema === '') {
             return;
         }
 
@@ -100,6 +89,6 @@ abstract class Model extends EloquentModel
 
     protected function quoteIdentifier(string $identifier): string
     {
-        return '"' . str_replace('"', '""', $identifier) . '"';
+        return '"'.str_replace('"', '""', $identifier).'"';
     }
 }

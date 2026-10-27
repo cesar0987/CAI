@@ -24,6 +24,8 @@ final class FeatureFlagCatalog
 
     public static function enabled(string $key): bool
     {
-        return self::all()[$key]->isEnabled() ?? false;
+        $flags = self::all();
+
+        return isset($flags[$key]) && $flags[$key]->isEnabled();
     }
 }

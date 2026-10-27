@@ -5,7 +5,8 @@ declare(strict_types=1);
 use Cai\Core\Models\Model;
 
 it('uses the short table name and keeps schema resolution in the core model contract', function () {
-    $model = new class extends Model {
+    $model = new class extends Model
+    {
         protected $table = 'students';
     };
 
@@ -14,8 +15,10 @@ it('uses the short table name and keeps schema resolution in the core model cont
 });
 
 it('allows subclasses to define a custom schema', function () {
-    $model = new class extends Model {
+    $model = new class extends Model
+    {
         protected $table = 'students';
+
         protected string $schema = 'students';
     };
 

@@ -20,7 +20,7 @@ final class LoginAttemptPolicy
         }
     }
 
-    public function registerFailure(string $email, string $ipAddress, \DateTimeImmutable $at = new \DateTimeImmutable()): void
+    public function registerFailure(string $email, string $ipAddress, \DateTimeImmutable $at = new \DateTimeImmutable): void
     {
         $key = $this->normalizeKey($email, $ipAddress);
 
@@ -37,7 +37,7 @@ final class LoginAttemptPolicy
         unset($this->attempts[$key]);
     }
 
-    public function isBlocked(string $email, string $ipAddress, \DateTimeImmutable $at = new \DateTimeImmutable()): bool
+    public function isBlocked(string $email, string $ipAddress, \DateTimeImmutable $at = new \DateTimeImmutable): bool
     {
         $key = $this->normalizeKey($email, $ipAddress);
 

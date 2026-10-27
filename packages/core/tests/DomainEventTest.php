@@ -5,7 +5,8 @@ declare(strict_types=1);
 use Cai\Core\Events\DomainEvent;
 
 it('keeps events as plain serializable payloads', function () {
-    $event = new class extends DomainEvent {
+    $event = new class extends DomainEvent
+    {
         public function __construct()
         {
             parent::__construct('student.enrolled', [
@@ -25,7 +26,8 @@ it('keeps events as plain serializable payloads', function () {
 });
 
 it('serializes dates into an iso string', function () {
-    $event = new class extends DomainEvent {
+    $event = new class extends DomainEvent
+    {
         public function __construct()
         {
             parent::__construct('payment.registered', [

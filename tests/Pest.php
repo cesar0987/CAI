@@ -10,4 +10,4 @@ if (function_exists('pest')) {
 
 uses(
     TestCase::class,
-)->in('Feature', 'Unit');
+)->in('Feature', 'Unit', 'Smoke');

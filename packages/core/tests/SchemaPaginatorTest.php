@@ -2,28 +2,65 @@
 
 declare(strict_types=1);
 
+use Cai\Core\Models\Model;
 use Cai\Core\Support\SchemaPaginator;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Database\Query\Builder;
-use Mockery;
 
-it('centralizes schema-bound pagination on the connection resolver', function () {
-    $builder = Mockery::mock(Builder::class);
+it('apunta la consulta a la conexión del módulo sin tocar el modelo del llamador', function () {
+    $model = new class extends Model
+    {
+        protected $table = 'students';
+    };
+
+    $queryBuilder = Mockery::mock(QueryBuilder::class);
+    $queryBuilder->shouldReceive('from')->with('students')->andReturnSelf();
+    $query = (new Builder($queryBuilder))->setModel($model);
+
+    $scoped = SchemaPaginator::onSchema($query, 'students');
+
+    expect($scoped->getModel()->getConnectionName())->toBe('students')
+        ->and($model->getConnectionName())->toBeNull();
+});
+
+it('pagina sobre la conexión indicada conservando las restricciones', function () {
+    $model = new class extends Model
+    {
+        protected $table = 'students';
+    };
+
     $expected = new LengthAwarePaginator([['id' => 1]], 1, 15, 1);
-
-    $builder->shouldReceive('on')->with('students')->once()->andReturnSelf();
-    $builder->shouldReceive('paginate')->with(15, ['*'], 'page', null)->once()->andReturn($expected);
+    $builder = Mockery::mock(Builder::class);
+    $builder->shouldReceive('getModel')->andReturn($model);
+    $builder->shouldReceive('setModel')
+        ->withArgs(fn (Model $scoped): bool => $scoped->getConnectionName() === 'students')
+        ->once();
+    $builder->shouldReceive('paginate')
+        ->with(15, ['*'], 'page', null)
+        ->once()
+        ->andReturn($expected);
 
     expect(SchemaPaginator::paginate($builder, 'students'))->toBe($expected);
 });
 
-it('supports simple pagination on the target schema', function () {
-    $builder = Mockery::mock(Builder::class);
-    $expected = new Paginator([['id' => 1]], 15, 1);
+it('pagina de forma simple sobre la conexión indicada', function () {
+    $model = new class extends Model
+    {
+        protected $table = 'identity';
+    };
 
-    $builder->shouldReceive('on')->with('identity')->once()->andReturnSelf();
-    $builder->shouldReceive('simplePaginate')->with(20, ['*'], 'page', null)->once()->andReturn($expected);
+    $expected = new Paginator([['id' => 1]], 15, 1);
+    $builder = Mockery::mock(Builder::class);
+    $builder->shouldReceive('getModel')->andReturn($model);
+    $builder->shouldReceive('setModel')
+        ->withArgs(fn (Model $scoped): bool => $scoped->getConnectionName() === 'identity')
+        ->once();
+    $builder->shouldReceive('simplePaginate')
+        ->with(20, ['*'], 'page', null)
+        ->once()
+        ->andReturn($expected);
 
     expect(SchemaPaginator::simplePaginate($builder, 'identity', 20))->toBe($expected);
 });

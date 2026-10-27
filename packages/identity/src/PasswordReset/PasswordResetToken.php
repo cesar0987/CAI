@@ -9,7 +9,7 @@ final readonly class PasswordResetToken
     public function __construct(
         public string $email,
         public string $token,
-        public \DateTimeImmutable $issuedAt = new \DateTimeImmutable(),
+        public \DateTimeImmutable $issuedAt = new \DateTimeImmutable,
         public \DateTimeImmutable $expiresAt = new \DateTimeImmutable('+60 minutes'),
         public bool $used = false,
     ) {
@@ -26,12 +26,12 @@ final readonly class PasswordResetToken
         }
     }
 
-    public function isExpired(\DateTimeInterface $at = new \DateTimeImmutable()): bool
+    public function isExpired(\DateTimeInterface $at = new \DateTimeImmutable): bool
     {
         return $at >= $this->expiresAt;
     }
 
-    public function isUsable(\DateTimeInterface $at = new \DateTimeImmutable()): bool
+    public function isUsable(\DateTimeInterface $at = new \DateTimeImmutable): bool
     {
         return ! $this->used && ! $this->isExpired($at);
     }

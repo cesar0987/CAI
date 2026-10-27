@@ -9,13 +9,12 @@ use Cai\Identity\Users\UserAccount;
 final class MultiRoleUser
 {
     /**
-     * @param array<string, bool> $roleFlags
+     * @param  array<string, bool>  $roleFlags
      */
     public function __construct(
         private readonly UserAccount $user,
         private readonly array $roleFlags = [],
-    ) {
-    }
+    ) {}
 
     public function hasRole(string $role): bool
     {
