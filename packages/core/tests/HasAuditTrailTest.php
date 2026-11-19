@@ -5,6 +5,13 @@ declare(strict_types=1);
 use Cai\Core\Traits\HasAuditTrail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Facade;
+
+afterEach(function (): void {
+    // El mock de la facade DB no debe filtrarse a los tests siguientes.
+    Facade::clearResolvedInstances();
+    Mockery::close();
+});
 
 it('records domain events for create, update and delete operations', function () {
     DB::shouldReceive('connection')->andReturnSelf();

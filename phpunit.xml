@@ -11,6 +11,7 @@
         <testsuite name="Unit">
             <directory>packages/*/tests</directory>
             <exclude>packages/*/tests/Arch</exclude>
+            <exclude>packages/*/tests/Feature</exclude>
             <directory>tests/Unit</directory>
         </testsuite>
         <testsuite name="Feature">

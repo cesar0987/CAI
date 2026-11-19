@@ -20,7 +20,15 @@ final class Auditor
         ?int $studentId = null,
         string $severity = 'info',
     ): void {
-        DB::table('identity.audit_events')->insert([
+        $connection = DB::connection();
+
+        // En PostgreSQL la tabla vive en el schema identity; en SQLite
+        // (desarrollo y tests) los nombres van sin cualificar.
+        $table = $connection->getDriverName() === 'pgsql'
+            ? 'identity.audit_events'
+            : 'audit_events';
+
+        $connection->table($table)->insert([
             'action' => $action,
             'entity_type' => $entityType,
             'entity_id' => $entityId,

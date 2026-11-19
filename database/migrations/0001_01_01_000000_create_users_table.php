@@ -1,49 +1,26 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
+/**
+ * ANDAMIAJE RETIRADO (F2, 2026-11-19).
+ *
+ * Las tablas users, password_reset_tokens y sessions del scaffolding inicial
+ * de Laravel pasaron a ser propiedad del módulo identity (03.01, 08.04 §2.1):
+ * las crean las migraciones de packages/identity/database/migrations.
+ *
+ * Este archivo se conserva como no-op para no romper el historial de
+ * migraciones ya ejecutado en entornos de desarrollo. No crea nada.
+ */
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
-        });
-
-        Schema::create('password_reset_tokens', function (Blueprint $table) {
-            $table->string('email')->primary();
-            $table->string('token');
-            $table->timestamp('created_at')->nullable();
-        });
-
-        Schema::create('sessions', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
-            $table->string('ip_address', 45)->nullable();
-            $table->text('user_agent')->nullable();
-            $table->longText('payload');
-            $table->integer('last_activity')->index();
-        });
+        // identity es dueño de users, password_reset_tokens y sessions.
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('password_reset_tokens');
-        Schema::dropIfExists('sessions');
+        // Sin efecto: el down real vive en las migraciones de identity.
     }
 };

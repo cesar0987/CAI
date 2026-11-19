@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Cai\Core\Models;
 
-use Illuminate\Database\Eloquent\Builder;
+use Cai\Core\Models\Concerns\ResolvesModuleSchema;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 
 abstract class Model extends EloquentModel
 {
+    use ResolvesModuleSchema;
+
     /**
      * Schemas are configured per connection and default to public.
      * Some modules (identity, students, care, etc.) will override this value.
@@ -26,69 +28,5 @@ abstract class Model extends EloquentModel
         }
 
         return parent::getTable();
-    }
-
-    /**
-     * Produce a schema-qualified table name for PostgreSQL-style resolution,
-     * even before the connection resolver is available.
-     */
-    public function getQualifiedTableName(): string
-    {
-        $table = $this->getTable();
-        $schema = $this->resolveSchema();
-
-        return $this->quoteIdentifier($schema).'.'.$this->quoteIdentifier($table);
-    }
-
-    /**
-     * Ensure PostgreSQL sessions use the module schema before the query runs.
-     *
-     * Repite el armado de `newQuery()` de Eloquent para que el tipo genérico
-     * quede atado al modelo concreto y no al `Model` base.
-     *
-     * @return Builder<static>
-     */
-    public function newQuery(): Builder
-    {
-        if ($this->usesPostgresConnection()) {
-            $this->setSearchPath($this->resolveSchema());
-        }
-
-        return $this->registerGlobalScopes($this->newModelQuery());
-    }
-
-    protected function resolveSchema(): string
-    {
-        $configuredSchema = $this->schema;
-
-        if ($this->getConnectionName() !== null) {
-            $connectionConfig = config('database.connections.'.$this->getConnectionName());
-
-            if (is_array($connectionConfig) && isset($connectionConfig['search_path'])) {
-                $configuredSchema = (string) $connectionConfig['search_path'];
-            }
-        }
-
-        return trim((string) $configuredSchema, '"') ?: 'public';
-    }
-
-    protected function usesPostgresConnection(): bool
-    {
-        return $this->getConnection()->getDriverName() === 'pgsql';
-    }
-
-    protected function setSearchPath(string $schema): void
-    {
-        if ($schema === '') {
-            return;
-        }
-
-        $statement = sprintf('SET search_path TO %s, public', $this->quoteIdentifier($schema));
-        $this->getConnection()->statement($statement);
-    }
-
-    protected function quoteIdentifier(string $identifier): string
-    {
-        return '"'.str_replace('"', '""', $identifier).'"';
     }
 }
