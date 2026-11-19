@@ -12,6 +12,7 @@ final readonly class Role
     public function __construct(
         public string $name,
         public array $permissions = [],
+        public string $label = '',
     ) {
         if (trim($name) === '') {
             throw new \InvalidArgumentException('El nombre del rol no puede estar vacío.');

@@ -19,7 +19,9 @@ it('derives the effective permissions from the user role assignments', function 
         ],
     );
 
-    expect(EffectivePermissions::has($user, 'care.notes.read'))->toBeTrue();
-    expect(EffectivePermissions::has($user, 'notifications.send'))->toBeFalse();
-    expect(array_key_exists('care.notes.read', EffectivePermissions::fromUser($user)))->toBeTrue();
+    // La puerta de entrada del rol clínico existe; la condición (rol clínico
+    // asignado por Dirección) la verifica la policy, no el catálogo (04.02 §3).
+    expect(EffectivePermissions::has($user, 'care.notes.view'))->toBeTrue();
+    expect(EffectivePermissions::has($user, 'billing.charges.view'))->toBeFalse();
+    expect(array_key_exists('care.notes.view', EffectivePermissions::fromUser($user)))->toBeTrue();
 });
