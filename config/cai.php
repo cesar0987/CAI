@@ -25,6 +25,12 @@ return [
         'login_max_attempts' => 5,
         'login_lockout_minutes' => 15,
         'mfa_enforced_roles' => ['direccion', 'admin_tecnico'],
+        'mfa' => [
+            'issuer' => 'CAI',
+            'digits' => 6,
+            'period' => 30,
+            'window' => 1,
+        ],
         'session_minutes' => 480,
         'session_idle_minutes' => 30,
         'password_min_length' => 12,

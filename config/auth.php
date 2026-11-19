@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\User;
+use Cai\Identity\Models\User;
 
 return [
 

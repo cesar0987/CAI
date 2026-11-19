@@ -13,6 +13,13 @@ use Illuminate\Support\Str;
 class UserFactory extends Factory
 {
     /**
+     * El modelo real vive en el módulo identity. Sin esta declaración la
+     * factory inferiría App\Models\User (alias deprecado) desde su propio
+     * nombre, y el model_type polimórfico de spatie quedaría inconsistente.
+     */
+    protected $model = User::class;
+
+    /**
      * The current password being used by the factory.
      */
     protected static ?string $password;
