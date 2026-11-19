@@ -6,6 +6,7 @@ namespace Cai\Identity\Models;
 
 use Cai\Core\Contracts\HasPermissions;
 use Cai\Core\Models\Concerns\ResolvesModuleSchema;
+use Cai\Identity\Audit\Concerns\Auditable;
 use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
@@ -46,6 +47,8 @@ use Spatie\Permission\Traits\HasRoles;
  */
 class User extends Authenticatable implements FilamentUser, HasPermissions
 {
+    use Auditable;
+
     /** @use HasFactory<UserFactory> */
     use HasFactory;
 

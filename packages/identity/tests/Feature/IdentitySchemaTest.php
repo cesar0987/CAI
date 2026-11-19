@@ -74,7 +74,7 @@ it('records audit events through the auditor on the test connection', function (
 
     app(Auditor::class)->record('auth.login', User::class, 7, ['ip' => '127.0.0.1'], $actor->id, 99);
 
-    $row = DB::table('audit_events')->first();
+    $row = DB::table('audit_events')->where('action', 'auth.login')->first();
 
     expect($row)->not->toBeNull()
         ->and($row->action)->toBe('auth.login')

@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace Cai\Identity\Models;
 
 use Cai\Core\Models\Model;
+use Cai\Identity\Audit\Concerns\Auditable;
 
 /**
  * identity.feature_flags — kill switches (03.01 §6, 06.04).
  */
 final class FeatureFlag extends Model
 {
+    use Auditable;
+
     protected string $schema = 'identity';
 
     protected $table = 'feature_flags';

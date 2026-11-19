@@ -29,9 +29,12 @@ final class AuthenticateUser
 {
     /**
      * Hash bcrypt fijo para igualar el tiempo de respuesta cuando el
-     * usuario no existe (anti-enumeración por tiempo).
+     * usuario no existe (anti-enumeración por tiempo). Se genera con el
+     * coste configurado para que sea comparable con el hash real.
+     *
+     * @var array<int, string>
      */
-    private const DUMMY_HASH = '$2y$12$PVa9B1WRGCetvZ.ymewtluvK75YdaTRLVNTDRxGt0kf8y5xaNWb0O';
+    private static array $dummyHashes = [];
 
     public function __construct(
         private readonly Auditor $auditor,
@@ -48,7 +51,7 @@ final class AuthenticateUser
         $user = User::where('email', $email)->first();
 
         if ($user === null) {
-            Hash::check($data->password, self::DUMMY_HASH);
+            Hash::check($data->password, $this->dummyHash());
 
             return Result::failure(new InvalidCredentialsException);
         }
@@ -89,6 +92,16 @@ final class AuthenticateUser
         $this->auditor->record('auth.login', User::class, $user->id, ['ip' => request()->ip()], $user->id);
 
         return Result::success(new AuthenticateUserResult($user));
+    }
+
+    private function dummyHash(): string
+    {
+        $rounds = (int) config('hashing.bcrypt.rounds', 12);
+
+        return self::$dummyHashes[$rounds] ??= Hash::make(
+            'cai-dummy-anti-enumeracion',
+            ['rounds' => $rounds],
+        );
     }
 
     private function registerFailedAttempt(User $user, string $email): void

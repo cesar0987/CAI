@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Cai\Identity\Console;
 
-use Cai\Identity\Audit\Auditor;
 use Cai\Identity\Models\Role;
 use Cai\Identity\Models\SecurityEvent;
 use Cai\Identity\Models\User;
@@ -63,10 +62,6 @@ final class CreateUserCommand extends Command
         ]);
 
         $user->assignRole(Role::where('name', $roleName)->firstOrFail());
-
-        app(Auditor::class)->record('user.created', User::class, $user->id, [
-            'role' => $roleName, 'email' => $email,
-        ], $user->id);
 
         SecurityEvent::create([
             'event_type' => 'role.changed',

@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace Cai\Identity\Models;
 
 use Cai\Core\Models\Model;
+use Cai\Identity\Audit\Concerns\Auditable;
 
 /**
  * identity.settings — configuración del centro clave/valor tipado (03.01 §5).
  */
 final class Setting extends Model
 {
+    use Auditable;
+
     protected string $schema = 'identity';
 
     protected $table = 'settings';
