@@ -25,12 +25,15 @@ final class IdentityServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        if ($this->app->runningInConsole()) {
+            $this->commands([Console\CreateUserCommand::class]);
+        }
     }
 
     public function boot(): void
     {
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'identity');
 
         // Policies de identity (F2 E-05). Sin Gate::before: nadie tiene
         // bypass; cada rol abre exactamente las puertas de la matriz 04.02.

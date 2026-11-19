@@ -7,6 +7,8 @@ namespace Cai\Identity\Models;
 use Cai\Core\Contracts\HasPermissions;
 use Cai\Core\Models\Concerns\ResolvesModuleSchema;
 use Database\Factories\UserFactory;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -42,7 +44,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  */
-class User extends Authenticatable implements HasPermissions
+class User extends Authenticatable implements FilamentUser, HasPermissions
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory;
@@ -106,6 +108,15 @@ class User extends Authenticatable implements HasPermissions
     public function isActive(): bool
     {
         return $this->status === 'active';
+    }
+
+    /**
+     * Todos los usuarios activos pueden abrir el panel; qué recursos ven
+     * lo deciden las policies (04.02/04.03), no este filtro grueso.
+     */
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->isActive();
     }
 
     public function isLockedOut(): bool

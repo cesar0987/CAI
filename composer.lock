@@ -459,9 +459,10 @@
             "dist": {
                 "type": "path",
                 "url": "packages/identity",
-                "reference": "37f17736e8d19a0134be0467bc60dfedbe2b2401"
+                "reference": "df3519a3c724860121f07dabb452a2653db90c58"
             },
             "require": {
+                "filament/filament": "^3.0",
                 "illuminate/database": "^13.0",
                 "illuminate/support": "^13.0",
                 "php": "^8.3"
