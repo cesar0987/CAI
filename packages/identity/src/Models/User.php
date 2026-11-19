@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cai\Identity\Models;
 
+use Cai\Core\Contracts\HasPermissions;
 use Cai\Core\Models\Concerns\ResolvesModuleSchema;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -41,7 +42,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
  */
-class User extends Authenticatable
+class User extends Authenticatable implements HasPermissions
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory;
