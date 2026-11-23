@@ -28,6 +28,11 @@ uses(
     RefreshDatabase::class,
 )->in(__DIR__.'/../packages/scheduling/tests/Feature');
 
+uses(
+    TestCase::class,
+    RefreshDatabase::class,
+)->in(__DIR__.'/../packages/care/tests/Feature');
+
 // Los unit tests de paquetes mockean facades sin TestCase: hay que limpiar
 // después de cada test para que los mocks no se filtren entre tests.
 afterEach(function (): void {

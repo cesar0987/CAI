@@ -35,5 +35,8 @@ return [
         'session_idle_minutes' => 30,
         'password_min_length' => 12,
         'password_rotation_days' => 180,
+        // ADR-0006: clave separada de APP_KEY para el contenido clínico.
+        // base64 de 32 bytes; se genera con `php artisan key:generate --show`.
+        'clinical_encryption_key' => env('CLINICAL_ENCRYPTION_KEY'),
     ],
 ];
