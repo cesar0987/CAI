@@ -10,7 +10,9 @@ final class SchedulingServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        //
+        if ($this->app->runningInConsole()) {
+            $this->commands([Console\GenerateSessionsCommand::class]);
+        }
     }
 
     public function boot(): void

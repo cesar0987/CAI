@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * scheduling.session_participants — 03.04 §6.
+ *
+ * @property int $student_id
  */
 final class SessionParticipant extends Model
 {

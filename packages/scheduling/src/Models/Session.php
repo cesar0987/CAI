@@ -18,6 +18,9 @@ use Illuminate\Support\Facades\DB;
  * scheduling.sessions — 03.04 §3.
  * Una sesión grupal = 1 fila aquí + N participantes + N registros de asistencia.
  *
+ * @property int $service_id
+ * @property int|null $group_id
+ * @property string $session_type
  * @property Carbon $starts_at
  * @property Carbon $ends_at
  */

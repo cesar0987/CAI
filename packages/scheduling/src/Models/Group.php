@@ -12,6 +12,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * scheduling.groups — 03.03 §5.
+ *
+ * @property string $name
+ * @property int $capacity
  */
 final class Group extends Model
 {

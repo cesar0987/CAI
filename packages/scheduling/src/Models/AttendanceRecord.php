@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * scheduling.attendance_records — 03.04 §7.
  * Un registro por participante: se corrige con update, nunca se borra.
+ *
+ * @property string $status
  */
 final class AttendanceRecord extends Model
 {

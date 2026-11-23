@@ -13,7 +13,10 @@ use Illuminate\Support\Carbon;
  * scheduling.availability_rules — 03.03 §8.
  * `weekday`: 0 = domingo … 6 = sábado, igual que en PostgreSQL.
  *
+ * @property int $professional_id
  * @property int $weekday
+ * @property string $start_time
+ * @property string $end_time
  * @property Carbon $valid_from
  * @property Carbon|null $valid_until
  */
