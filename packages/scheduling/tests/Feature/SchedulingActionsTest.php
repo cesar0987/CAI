@@ -128,6 +128,30 @@ it('records attendance and audits a correction without adding rows', function ()
         ->and(DB::table('audit_events')->where('action', 'attendance.corrected')->count())->toBe(1);
 });
 
+it('creates one session record and N attendance records for a group session', function () {
+    $service = schedulingService();
+    $professional = schedulingProfessional();
+    $students = [Student::factory()->create(), Student::factory()->create(), Student::factory()->create()];
+    $user = User::factory()->create();
+
+    $session = app(ScheduleSession::class)->execute(
+        schedulingData($service, $professional, array_map(fn ($s) => $s->id, $students)),
+    );
+
+    app(RecordAttendance::class)->execute(new RecordAttendanceData(
+        $session->id,
+        array_map(fn ($s): array => [
+            'participant_student_id' => $s->id,
+            'status' => 'present',
+        ], $students),
+        $user->id,
+    ));
+
+    expect(Session::count())->toBe(1)
+        ->and($session->participants()->count())->toBe(3)
+        ->and(AttendanceRecord::count())->toBe(3);
+});
+
 it('refuses attendance for a student outside the session', function () {
     $service = schedulingService();
     $professional = schedulingProfessional();
