@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\DB;
  * @property int $service_id
  * @property int|null $group_id
  * @property string $session_type
+ * @property string $status
  * @property Carbon $starts_at
  * @property Carbon $ends_at
  */

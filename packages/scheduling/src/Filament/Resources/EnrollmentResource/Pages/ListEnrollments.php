@@ -1,0 +1,19 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Cai\Scheduling\Filament\Resources\EnrollmentResource\Pages;
+
+use Cai\Scheduling\Filament\Resources\EnrollmentResource;
+use Filament\Actions;
+use Filament\Resources\Pages\ListRecords;
+
+final class ListEnrollments extends ListRecords
+{
+    protected static string $resource = EnrollmentResource::class;
+
+    protected function getHeaderActions(): array
+    {
+        return [Actions\CreateAction::make()];
+    }
+}

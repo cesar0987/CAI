@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * scheduling.services — 03.03 §2.
+ *
+ * @property string $name
  */
 final class Service extends Model
 {

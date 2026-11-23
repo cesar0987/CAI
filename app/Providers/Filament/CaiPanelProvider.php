@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use Cai\Identity\Filament\Pages\Auth\Login;
+use Cai\Scheduling\Filament\Pages\SessionCalendar;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -41,6 +42,13 @@ final class CaiPanelProvider extends PanelProvider
                 in: __DIR__.'/../../../packages/students/src/Filament/Resources',
                 for: 'Cai\\Students\\Filament\\Resources',
             )
+            ->discoverResources(
+                in: __DIR__.'/../../../packages/scheduling/src/Filament/Resources',
+                for: 'Cai\\Scheduling\\Filament\\Resources',
+            )
+            ->pages([
+                SessionCalendar::class,
+            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
