@@ -23,25 +23,31 @@ it('creates the six students tables plus the code-sequence support table', funct
     }
 });
 
-it('generates stable ALU-AAAA-NNNN codes with a per-year sequence', function () {
+it('generates stable ALU-AAAA-NNNN-C codes with a per-year Luhn checksum', function () {
     $generator = app(StudentCodeGenerator::class);
 
     $first = $generator->generate(2026);
     $second = $generator->generate(2026);
     $otherYear = $generator->generate(2027);
 
-    expect($first)->toMatch('/^ALU-2026-\d{4}$/')
-        ->and($second)->toBe('ALU-2026-0002')
-        ->and($otherYear)->toBe('ALU-2027-0001')
-        ->and($generator->isValid('ALU-2026-0042'))->toBeTrue()
-        ->and($generator->isValid('alu-2026-0042'))->toBeFalse();
+    expect($first)->toBe('ALU-2026-0001-1')
+        ->and($second)->toBe('ALU-2026-0002-9')
+        ->and($otherYear)->toBe('ALU-2027-0001-9')
+        ->and($generator->isValid('ALU-2026-0042-5'))->toBeTrue()
+        ->and($generator->isValid('ALU-2026-0042-6'))->toBeFalse()
+        ->and($generator->isValid('ALU-2026-0024-5'))->toBeFalse()
+        ->and($generator->isValid('ALU-2026-0042'))->toBeFalse()
+        ->and($generator->isValid('alu-2026-0042-5'))->toBeFalse();
 });
 
-it('reuses a valid preferred code without consuming the sequence', function () {
+it('reuses a valid preferred code without consuming the sequence and rejects a bad checksum', function () {
     $generator = app(StudentCodeGenerator::class);
 
-    expect($generator->generate(2026, 'ALU-2024-0007'))->toBe('ALU-2024-0007')
-        ->and($generator->generate(2026))->toBe('ALU-2026-0001');
+    expect($generator->generate(2026, 'ALU-2024-0007-3'))->toBe('ALU-2024-0007-3')
+        ->and($generator->generate(2026))->toBe('ALU-2026-0001-1');
+
+    expect(fn () => $generator->generate(2026, 'ALU-2024-0007'))
+        ->toThrow(InvalidArgumentException::class);
 });
 
 it('enforces unique student codes and document ids', function () {

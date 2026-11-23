@@ -26,3 +26,5 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 .deptrac.cache
+# F3: la planilla de alumnos y los reportes de rechazos nunca se versionan.
+*.csv
