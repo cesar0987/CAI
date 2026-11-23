@@ -37,6 +37,10 @@ final class CaiPanelProvider extends PanelProvider
                 in: __DIR__.'/../../../packages/identity/src/Filament/Resources',
                 for: 'Cai\\Identity\\Filament\\Resources',
             )
+            ->discoverResources(
+                in: __DIR__.'/../../../packages/students/src/Filament/Resources',
+                for: 'Cai\\Students\\Filament\\Resources',
+            )
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
