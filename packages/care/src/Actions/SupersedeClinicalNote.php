@@ -11,6 +11,7 @@ use Cai\Care\Exceptions\ClinicalScopeException;
 use Cai\Care\Exceptions\NotFinalizedException;
 use Cai\Care\Exceptions\ReasonTooShortException;
 use Cai\Care\Models\ClinicalNote;
+use Cai\Core\Support\ModuleConnection;
 use Cai\Identity\Audit\Auditor;
 use Cai\Identity\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -31,7 +32,7 @@ final class SupersedeClinicalNote
             throw new ReasonTooShortException('El motivo de la corrección debe tener al menos 20 caracteres.');
         }
 
-        return DB::connection('care')->transaction(function () use ($data, $actor): ClinicalNote {
+        return DB::connection(ModuleConnection::for('care'))->transaction(function () use ($data, $actor): ClinicalNote {
             $original = ClinicalNote::findOrFail($data->noteId);
 
             if ($original->status === ClinicalNoteStatus::Draft->value) {

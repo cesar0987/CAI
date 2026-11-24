@@ -10,6 +10,7 @@ use Cai\Care\Enums\ClinicalNoteStatus;
 use Cai\Care\Enums\ClinicalNoteType;
 use Cai\Care\Exceptions\ClinicalScopeException;
 use Cai\Care\Models\ClinicalNote;
+use Cai\Core\Support\ModuleConnection;
 use Cai\Identity\Audit\Auditor;
 use Cai\Identity\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -39,7 +40,7 @@ final class CreateClinicalNote
             throw new \InvalidArgumentException("Tipo de nota desconocido: {$data->noteType}");
         }
 
-        return DB::connection('care')->transaction(function () use ($data, $actor, $noteType): ClinicalNote {
+        return DB::connection(ModuleConnection::for('care'))->transaction(function () use ($data, $actor, $noteType): ClinicalNote {
             $note = ClinicalNote::create([
                 'student_id' => $data->studentId,
                 'author_user_id' => $actor->id,

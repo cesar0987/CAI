@@ -9,6 +9,7 @@ use Cai\Care\Exceptions\GrantExpiredException;
 use Cai\Care\Exceptions\ReasonTooShortException;
 use Cai\Care\Models\ClinicalNote;
 use Cai\Care\Models\ClinicalNoteAccessGrant;
+use Cai\Core\Support\ModuleConnection;
 use Cai\Identity\Audit\Auditor;
 use Cai\Identity\Models\SecurityEvent;
 use Cai\Identity\Models\User;
@@ -44,7 +45,7 @@ final class IssueClinicalNoteGrant
             }
         }
 
-        return DB::connection('care')->transaction(function () use ($data, $actor, $expiresAt): ClinicalNoteAccessGrant {
+        return DB::connection(ModuleConnection::for('care'))->transaction(function () use ($data, $actor, $expiresAt): ClinicalNoteAccessGrant {
             $grant = ClinicalNoteAccessGrant::create([
                 'clinical_note_id' => $data->clinicalNoteId,
                 'student_id' => $data->studentId,

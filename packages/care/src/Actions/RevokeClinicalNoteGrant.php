@@ -8,6 +8,7 @@ use Cai\Care\Data\RevokeClinicalNoteGrantData;
 use Cai\Care\Exceptions\ClinicalScopeException;
 use Cai\Care\Models\ClinicalNote;
 use Cai\Care\Models\ClinicalNoteAccessGrant;
+use Cai\Core\Support\ModuleConnection;
 use Cai\Identity\Audit\Auditor;
 use Cai\Identity\Models\SecurityEvent;
 use Cai\Identity\Models\User;
@@ -25,7 +26,7 @@ final class RevokeClinicalNoteGrant
             throw new ClinicalScopeException('Se necesita care.grants.revoke para revocar un grant.');
         }
 
-        return DB::connection('care')->transaction(function () use ($data, $actor): ClinicalNoteAccessGrant {
+        return DB::connection(ModuleConnection::for('care'))->transaction(function () use ($data, $actor): ClinicalNoteAccessGrant {
             $grant = ClinicalNoteAccessGrant::findOrFail($data->grantId);
 
             if ($grant->revoked_at === null) {

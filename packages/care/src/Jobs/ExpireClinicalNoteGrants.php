@@ -6,6 +6,7 @@ namespace Cai\Care\Jobs;
 
 use Cai\Care\Models\ClinicalNote;
 use Cai\Care\Models\ClinicalNoteAccessGrant;
+use Cai\Core\Support\ModuleConnection;
 use Cai\Identity\Audit\Auditor;
 use Cai\Identity\Models\SecurityEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -27,7 +28,7 @@ final class ExpireClinicalNoteGrants implements ShouldQueue
             ->where('expires_at', '<', now())
             ->get();
 
-        DB::connection('care')->transaction(function () use ($expired, $auditor): void {
+        DB::connection(ModuleConnection::for('care'))->transaction(function () use ($expired, $auditor): void {
             foreach ($expired as $grant) {
                 $grant->update([
                     'revoked_at' => now(),

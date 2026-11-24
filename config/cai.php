@@ -41,4 +41,17 @@ return [
         // 04.04 §3.3: expiración máxima por defecto de un grant excepcional.
         'clinical_grant_max_days' => 30,
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Finanzas (08.08 §2.2 / 03.06 §2)
+    |--------------------------------------------------------------------------
+    | El importe se guarda exacto (NUMERIC 14,2). El redondeo es solo de
+    | presentación, configurable; P2 sigue abierta en Dirección.
+    */
+    'finanzas' => [
+        'rounding_mode' => env('CAI_AMOUNT_ROUNDING', 'none'), // none | 100 | 1000
+        // 08.08 §3.7: umbral propuesto, pendiente de validación (P23).
+        'cash_difference_tolerance' => '5000.00',
+    ],
 ];

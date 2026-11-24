@@ -9,6 +9,7 @@ use Cai\Care\Enums\ClinicalNoteStatus;
 use Cai\Care\Exceptions\NoteAlreadyFinalizedException;
 use Cai\Care\Exceptions\NotNoteAuthorException;
 use Cai\Care\Models\ClinicalNote;
+use Cai\Core\Support\ModuleConnection;
 use Cai\Identity\Audit\Auditor;
 use Illuminate\Support\Facades\DB;
 
@@ -19,7 +20,7 @@ final class FinalizeClinicalNote
 
     public function execute(FinalizeClinicalNoteData $data): ClinicalNote
     {
-        return DB::connection('care')->transaction(function () use ($data): ClinicalNote {
+        return DB::connection(ModuleConnection::for('care'))->transaction(function () use ($data): ClinicalNote {
             $note = ClinicalNote::findOrFail($data->noteId);
 
             if ($note->status !== ClinicalNoteStatus::Draft->value) {
