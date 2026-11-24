@@ -4,7 +4,7 @@ use Cai\Identity\Http\Controllers\MfaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 // MFA: rutas públicas (todavía no hay sesión autenticada durante el challenge).
