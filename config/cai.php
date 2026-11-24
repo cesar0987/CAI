@@ -38,5 +38,7 @@ return [
         // ADR-0006: clave separada de APP_KEY para el contenido clínico.
         // base64 de 32 bytes; se genera con `php artisan key:generate --show`.
         'clinical_encryption_key' => env('CLINICAL_ENCRYPTION_KEY'),
+        // 04.04 §3.3: expiración máxima por defecto de un grant excepcional.
+        'clinical_grant_max_days' => 30,
     ],
 ];

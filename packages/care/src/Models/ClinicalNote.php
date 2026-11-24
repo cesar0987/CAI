@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cai\Care\Models;
 
+use Cai\Care\Authorization\ClinicalScope;
 use Cai\Care\Casts\ClinicalEncrypted;
 use Cai\Core\Models\Model;
 use Cai\Identity\Models\User;
@@ -19,9 +20,16 @@ use Illuminate\Support\Carbon;
  *
  * @property int $student_id
  * @property int $author_user_id
- * @property string $status
+ * @property int|null $session_id
+ * @property int|null $care_plan_id
  * @property string $note_type
+ * @property string $status
+ * @property string $content
+ * @property string|null $summary
+ * @property int|null $supersedes_note_id
+ * @property string|null $correction_reason
  * @property Carbon $recorded_at
+ * @property Carbon|null $finalized_at
  */
 final class ClinicalNote extends Model
 {
@@ -94,17 +102,32 @@ final class ClinicalNote extends Model
     }
 
     /** @param Builder<ClinicalNote> $query */
-    public function scopeVisibleTo(Builder $query, User $user): Builder
+    public function scopeVisibleTo(Builder $query, ?User $user): Builder
     {
-        $query->where(function (Builder $inner) use ($user): void {
+        return self::applyVisibleTo($query, $user);
+    }
+
+    /**
+     * Reutilizable desde el Resource de Filament (su query no es `query()`).
+     *
+     * @param  Builder<ClinicalNote>  $query
+     */
+    public static function applyVisibleTo(Builder $query, ?User $user): Builder
+    {
+        if ($user === null || ! $user->isActive()) {
+            return $query->whereRaw('1 = 0');
+        }
+
+        $studentIds = (new ClinicalScope)->scopedStudentIds($user);
+
+        return $query->where(function (Builder $inner) use ($user, $studentIds): void {
             $inner->where('author_user_id', $user->id)
+                ->orWhereIn('student_id', $studentIds)
                 ->orWhereHas('grants', function (Builder $grants) use ($user): void {
                     $grants->where('granted_to_user_id', $user->id)
                         ->whereNull('revoked_at')
                         ->where('expires_at', '>', now());
                 });
         });
-
-        return $query;
     }
 }

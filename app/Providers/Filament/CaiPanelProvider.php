@@ -46,6 +46,10 @@ final class CaiPanelProvider extends PanelProvider
                 in: __DIR__.'/../../../packages/scheduling/src/Filament/Resources',
                 for: 'Cai\\Scheduling\\Filament\\Resources',
             )
+            ->discoverResources(
+                in: __DIR__.'/../../../packages/care/src/Filament/Resources',
+                for: 'Cai\\Care\\Filament\\Resources',
+            )
             ->pages([
                 SessionCalendar::class,
             ])

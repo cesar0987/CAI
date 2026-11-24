@@ -13,8 +13,15 @@ use Illuminate\Support\Carbon;
 /**
  * care.clinical_note_access_grants — 03.05 §6.
  *
+ * @property int|null $clinical_note_id
+ * @property int $student_id
+ * @property int $granted_to_user_id
+ * @property int $granted_by_user_id
+ * @property string $reason
  * @property Carbon $expires_at
  * @property Carbon|null $revoked_at
+ * @property int|null $revoked_by_user_id
+ * @property string|null $revocation_reason
  */
 final class ClinicalNoteAccessGrant extends Model
 {
@@ -27,7 +34,7 @@ final class ClinicalNoteAccessGrant extends Model
     /** @var list<string> */
     protected $fillable = [
         'clinical_note_id', 'student_id', 'granted_to_user_id', 'granted_by_user_id',
-        'reason', 'expires_at', 'revoked_at', 'revoked_by_user_id',
+        'reason', 'expires_at', 'revoked_at', 'revoked_by_user_id', 'revocation_reason',
     ];
 
     protected function casts(): array
